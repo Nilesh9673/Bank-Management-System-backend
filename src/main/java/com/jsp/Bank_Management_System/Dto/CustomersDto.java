@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,12 +23,20 @@ public class CustomersDto {
 	private String name;
 	private String gender;
 	private String dob;
+	private long adharno;
 	private String status;
 	
-	@OneToMany(mappedBy = "customers")
-	private List<BankAccountDto> bankaccount;
 	
 	
+	
+	public long getAdharno() {
+		return adharno;
+	}
+
+	public void setAdharno(long adharno) {
+		this.adharno = adharno;
+	}
+
 	@ManyToOne
 	@JoinColumn
 	private ManagerDto managerDto;
@@ -64,13 +73,6 @@ public class CustomersDto {
 		this.dob = dob;
 	}
 
-	public List<BankAccountDto> getBankaccount() {
-		return bankaccount;
-	}
-
-	public void setBankaccount(List<BankAccountDto> bankaccount) {
-		this.bankaccount = bankaccount;
-	}
 
 	public String getStatus() {
 		return status;

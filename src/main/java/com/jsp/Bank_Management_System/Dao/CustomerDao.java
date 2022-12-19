@@ -12,12 +12,20 @@ import com.jsp.Bank_Management_System.Dto.BankAccountDto;
 import com.jsp.Bank_Management_System.Dto.CustomersDto;
 
 public class CustomerDao {
+	
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nilesh");
 	EntityManager entityManager = entityManagerFactory.createEntityManager();
 	EntityTransaction entityTransaction = entityManager.getTransaction();
 
 	// save customers
 	public CustomersDto saveCustomers(CustomersDto customersDto) {
+		List<CustomersDto> c=getAllCustomers();
+		for (CustomersDto customers : c) {
+			if(customers.getAdharno()==customersDto.getAdharno()) {
+				System.out.println("Customers Allready Exist");
+				return null;
+			}
+		}
 		customersDto.setStatus("Unapproved");
 		entityTransaction.begin();
 		entityManager.persist(customersDto);
@@ -97,12 +105,23 @@ public class CustomerDao {
 	}
 
 	// Save bank Accoount
-	public BankAccountDto saveBankDetail(int id, BankAccountDto bankAccountDto) {
+	public BankAccountDto saveBankDetail(int CustomerId, BankAccountDto bankAccountDto) {
+		List<BankAccountDto> b=ALlBankDetail();
+		for(BankAccountDto bankAccount:b) {
+			if(bankAccount.getCustomers().getId()==CustomerId) {
+				System.out.println("You Allready have an Account");
+				return null;
+			}
+		}
 
-		CustomersDto customersDto = entityManager.find(CustomersDto.class, id);
+		CustomersDto customersDto = entityManager.find(CustomersDto.class, CustomerId);
 		if (customersDto != null) {
 			if (customersDto.getStatus().equals("approved")) {
 				bankAccountDto.setCustomers(customersDto);
+				bankAccountDto.setName(customersDto.getName());
+				bankAccountDto.setBname("jSpider_Bank");
+				bankAccountDto.setAccno(49221000+customersDto.getId());
+				bankAccountDto.setIfsc("JSP0JAVA");
 				entityTransaction.begin();
 				entityManager.persist(bankAccountDto);
 				entityTransaction.commit();
@@ -133,7 +152,7 @@ public class CustomerDao {
 		if (customersDto != null) {
 			if (bankAccountDto != null) {
 				if (customersDto.getStatus().equals("approved")
-						&& bankAccountDto.getCustomers().getId() == customersDto.getId()) {
+						&& bankAccountDto.getCustomers().getId() == customersId ) {
 
 					bankAccountDto.setBalance(bankAccountDto.getBalance() + amount);
 
@@ -204,6 +223,16 @@ public class CustomerDao {
 				System.out.println();
 			}
 		}
+		return b;
+	}
+	
+	
+	public List<BankAccountDto> ALlBankDetail(){
+		String sql="Select b from BankAccountDto b";
+		Query query=entityManager.createQuery(sql);
+		List<BankAccountDto> b=query.getResultList();
+		
+	
 		return b;
 	}
 //	public CustomersDto transferMoney(int receiver,double amount) {

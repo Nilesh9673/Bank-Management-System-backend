@@ -14,11 +14,14 @@ public class SaveCustomer {
 		String gender=sc.next();
 		System.out.println("Enter your Date Of Birth");
 		String dob=sc.next();
+		System.out.println("Enter your AadharCard no ");
+		long adharno=sc.nextLong();
 		System.out.println("defalut Customers Status is unapproved");
 		CustomersDto customersDto=new CustomersDto();
 		customersDto.setName(name);
 		customersDto.setGender(gender);
 		customersDto.setDob(dob);
+		customersDto.setAdharno(adharno);
 		
 		
 		CustomerService customerService= new CustomerService();

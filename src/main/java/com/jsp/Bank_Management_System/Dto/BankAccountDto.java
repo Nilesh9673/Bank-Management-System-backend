@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,13 +15,21 @@ public class BankAccountDto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private String name;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private String bname;
 	private long accno;
 	private String ifsc;
 	private double balance;
 	
-	@ManyToOne
-	@JoinColumn
+	@OneToOne
 	private CustomersDto customers;
 
 	public int getId() {

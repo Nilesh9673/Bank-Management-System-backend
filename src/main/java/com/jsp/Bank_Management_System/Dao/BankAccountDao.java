@@ -50,7 +50,7 @@ public class BankAccountDao {
 //		System.out.println(bankAccountDto.getBalance());
 ////		System.out.println(bankAccountDto.get);
 //	}
-	public List<BankAccountDto> getBankDetail_Customers(){
+	public List<BankAccountDto> ALlBankDetail(){
 		String sql="Select b from BankAccountDto b";
 		Query query=entityManager.createQuery(sql);
 		List<BankAccountDto> b=query.getResultList();
